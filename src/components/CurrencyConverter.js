@@ -18,7 +18,7 @@ export default function CurrencyConverter() {
                 setExchangeRate(x.rates[country2] / x.rates[country1])
                 setInput2((x.rates[country2] / x.rates[country1]).toFixed(2))
             })
-    }, [country1,country2]);
+    }, [country1]);
 
     useEffect(() => {
         setExchangeRate(data[country1] / data[country2])
@@ -31,16 +31,17 @@ export default function CurrencyConverter() {
     }, [inputBox, input1, input2])
 
 
-    function handleCountry1(e) {
-        setCountry1(e.target.value)
+    function handleCountry1(event) {
+        setCountry1(event.target.value)
     }
-    function handleCountry2(e) {
-        setCountry2(e.target.value)
+    function handleCountry2(event) {
+        setCountry2(event.target.value)
     }
-    function handleInput1(e) {
-        e.preventDefault();
-        let input = e.target.value
-        if (input < 0) {
+    
+    function handleInput1(event) {
+        event.preventDefault();
+        let input = event.target.value
+        if (input < 0 ) {
             setInput1(0)
             setInputBox(1)
         }
@@ -50,10 +51,10 @@ export default function CurrencyConverter() {
         }
 
     }
-    function handleInput2(e) {
-        e.preventDefault();
-        let input = e.target.value
-        if (input < 0) {
+    function handleInput2(event) {
+        event.preventDefault();
+        let input = event.target.value
+        if (input < 0 ) {
             setInput2(0)
             setInputBox(2)
         }
@@ -62,27 +63,28 @@ export default function CurrencyConverter() {
             setInputBox(2)
         }
     }
+// console.log(Object.keys(data).length);
+
 
 
 
     return (
         <div>
             <h1>Currency Converter</h1>
-            <select onChange={e => { handleCountry1(e) }} value={country1}>
+            <select onChange={handleCountry1} value={country1}>
                 {Object.keys(data).map(item => {
-                    if (item !== country2) {
                         return (<option key={item} value={item}>{item}</option>)
-                    }
+                    
                 })}
-            </select><input type="number" min="0" onChange={e => { handleInput1(e) }} value={input1}></input>
+            </select><input type="number" min="0" onChange={handleInput1} value={input1} onKeyDown={(e) => { if (e.key === '-') e.preventDefault() }}></input>
             <br></br>
-            <select onChange={e => { handleCountry2(e) }} value={country2}>
+            <select onChange={handleCountry2} value={country2}>
                 {Object.keys(data).map(item => {
                     if (item !== country1) {
                         return (<option key={item} value={item}>{item}</option>)
                     }
                 })}
-            </select><input type="number" min="0" onChange={e => { handleInput2(e) }} value={input2}></input>
+            </select><input type="number" min="0" onChange={ handleInput2 } value={input2} onKeyDown={(e) => { if (e.key === '-') e.preventDefault()}}></input>
         </div>
     )
 }
